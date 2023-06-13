@@ -43,7 +43,7 @@ class _PublishArticlePageState extends State<PublishArticlePage> with AutomaticK
   }
   String _text = ''; // 将_text定义在类级别
 
-  //图片选择
+  //相册图片选择
   bool get wantKeepAlive => true;
   int colorIndex = 0;
   File? selectedImage; // 用于存储选择的图片
@@ -54,7 +54,7 @@ class _PublishArticlePageState extends State<PublishArticlePage> with AutomaticK
     final String? imagePath = prefs.getString('selectedImagePath');
     return imagePath;
   }
-
+ //打开相册功能
   Future<void> _pickImage() async {
     final imagePicker = ImagePicker();
     final pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -211,6 +211,7 @@ class _PublishArticlePageState extends State<PublishArticlePage> with AutomaticK
             margin: EdgeInsets.symmetric(horizontal: 16,vertical: 4),
             child: Text('${_textcount}'+'/'+'${_maxtextcount}',style: TextStyle(color: Colors.grey),),
           ),
+          //打开相册功能 ！！！！！
           GestureDetector(
             onTap: () {
               _pickImage(); // 打开相册选择图片
@@ -238,7 +239,6 @@ class _PublishArticlePageState extends State<PublishArticlePage> with AutomaticK
                     height: 2,
                     child: Container(
                       color: Colors.grey, // 十字的颜色
-
                     ),
                   ),
                   Positioned(
@@ -283,6 +283,7 @@ class _PublishArticlePageState extends State<PublishArticlePage> with AutomaticK
                     '确定要发布该文章？',
                         () {
                       admin[0]['post'].add({
+                        'title': '',
                         'text':_text,
                         'time': DateTime.now().toString(),
                         'comments': '0',
@@ -293,6 +294,7 @@ class _PublishArticlePageState extends State<PublishArticlePage> with AutomaticK
                         'comments_data': [],
                       });
                       all[all.length-1]['post'].add({
+                        'title': '',
                         'text':_text,
                         'time': DateTime.now().toString(),
                         'comments': '0',

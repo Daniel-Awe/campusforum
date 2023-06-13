@@ -16,6 +16,11 @@ class myCollections extends StatefulWidget{
 
 class _myCollectionsState extends State<myCollections>{
   @override
+
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context){
     return MaterialApp(
       home: Scaffold(
@@ -33,18 +38,44 @@ class _myCollectionsState extends State<myCollections>{
           child: ListView.builder(
           itemCount: admin[0]['likes'].length,
           itemBuilder: (BuildContext context, int index) {
-            final Map<String, dynamic> likes = admin[0]['likes'][index];
+            //根据其'likes'列表收藏的文章内容和作者进行匹配获取all中对应作者文章内容
+            //该功能是为了解决添加评论的问题。有时候会点击进入likes的文章中，导致无法显示实际all的post实际文章中的comments_data内容
+            //因为likes的文章内容显示的是likes数据中的comments_data，而不是原文章中添加的评论数据。
+            int j = 0;
+            int k = 0;
+            bool found = false;
+            for(j = 0; j < all.length; j++){
+              for(k = 0; k < all[j]['post'].length; k++){
+                if(all[j]['post'][k]['text'] == admin[0]['likes'][index]['text']){
+                  found = true;
+                  break;
+                }
+              }
+              if(found){
+                break;
+              }
+            }
+            //如果没找到就赋值为0
+            if(j==40){
+              j=0;
+              k=0;
+            }
+            final Map<String, dynamic> likes = all[j]['post'][k];
+
+            //获取作者信息
             int i =0;
             for(i =0;i<all.length;i++){
               if(all[i]['name'] == likes['name']){
                 break;
               }
             }
-            //这里有一个bug。我在all数据的最后加上了admin的数据，但是在收藏自我的文章时，会出现bug。
+            //这里有一个bug。我在all数据的最后加上了admin登录者的数据，但是在收藏自我的文章时，会出现bug，需要将i-1。
             if(i==all.length){
               i--;
             }
             final Map<String, dynamic> author = all[i];
+
+            //时间组件
             String time = getTime(likes['time']);
             return Container(
               padding: EdgeInsets.symmetric(vertical: 16.0),

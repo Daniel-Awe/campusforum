@@ -25,6 +25,12 @@ class _PostPageState extends State<PostPage>{
   final List<String> menuItems = ['举报', '收藏', '调整字号'];
   TextEditingController _textEditingController = TextEditingController();
 
+  //调试
+  @override
+  void initState(){
+    super.initState();
+    // print(widget.article);
+  }
   //菜单
   void _showPopupMenu() async {
     final result = await showMenu(
@@ -281,9 +287,10 @@ class _PostPageState extends State<PostPage>{
                               }
                             }
                             setState(() {
+                              //如果是admin的登录者管理员文章，则需在两处的列表中都添加评论的数据。
                               if(widget.userInfo['status'] == 'Flutter Developer'){
                                 articleindex = admin[0]['post'].length-1;
-                                all[authorindex]['post'][articleindex]['comments_data'].add({
+                                all[all.length-1]['post'][articleindex]['comments_data'].add({
                                   'text': _textEditingController.text,
                                   'time': DateTime.now().toString(),
                                   'name': '${admin[0]['name']}',
@@ -318,7 +325,6 @@ class _PostPageState extends State<PostPage>{
                             _textEditingController.text ='';
                           },
                         ),
-
                       ],
                     ),
                   ),

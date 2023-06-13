@@ -1,3 +1,8 @@
+
+//APP主题：校园论坛
+//APP名称：浙科圈  英文名：ZUST-Circle
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 //主要页面
@@ -40,10 +45,21 @@ class _MyAppState extends State<MyApp>{
 
   //初始化admin列表
   void initAdminList(int loginIndex){
+    //admin的列表
     admin[0]['name'] = usersdata[loginIndex]['Username'];
     admin[0]['sex'] = usersdata[loginIndex]['Gender'];
     admin[0]['email'] = usersdata[loginIndex]['Email'];
     admin[0]['avatar'] = 'assets/admin/admin${loginIndex+1}.jpg';
+    //遍历admin的文章，更新名字为当前登录者的名字
+    for(int i =0;i<admin[0]['post'].length;i++){
+      admin[0]['post'][i]['name'] = usersdata[loginIndex]['Username'];
+      all[all.length-1]['post'][i]['name'] = usersdata[loginIndex]['Username'];
+    }
+    //all的列表
+    all[all.length-1]['name'] = usersdata[loginIndex]['Username'];
+    all[all.length-1]['sex'] = usersdata[loginIndex]['Gender'];
+    all[all.length-1]['email'] = usersdata[loginIndex]['Email'];
+    all[all.length-1]['avatar'] = 'assets/admin/admin${loginIndex+1}.jpg';
   }
 
   @override
@@ -58,7 +74,7 @@ class _MyAppState extends State<MyApp>{
                   margin: EdgeInsets.only(left: 10),
                   height: 35,
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent,
+                    color: Colors.lightBlueAccent,
                     borderRadius: BorderRadius.circular(4)
                   ),
                   child: TextButton(

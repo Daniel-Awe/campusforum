@@ -109,6 +109,8 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Text('注册', style: TextStyle(fontSize: 32,color: Colors.black,fontWeight: FontWeight.bold),),
+              SizedBox(height: 12,),
               TextFormField(
                 controller: _accountController,
                 onChanged: _isAccountValid,

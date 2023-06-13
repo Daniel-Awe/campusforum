@@ -21,6 +21,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState(){
     super.initState();
+    //对个人资料的所有TextField框进行初始化操作
     _accountController.text = loginIndex == 404? 'admin': usersdata[loginIndex]['Account'];
     _passwordController.text = loginIndex == 404? 'admin': usersdata[loginIndex]['Password'];
     _usernameController.text = admin[0]['name'];
@@ -33,7 +34,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return true;
   }
 
-  //未联网成功、连接mysql不成功
+  //未联网成功、连接mysql不成功，则修改数据提交到本地的'personaldata'中
   bool ischangedA(){
     if(_accountController.text != admin[0]['account']
         || _passwordController.text != admin[0]['password']
@@ -67,6 +68,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
       admin[0]['name'] = _usernameController.text;
       admin[0]['sex'] = selectedGender;
       admin[0]['school'] = _emailController.text;
+      all[all.length-1]['name'] = _usernameController.text;
+      all[all.length-1]['sex'] = selectedGender;
+      all[all.length-1]['school'] = _emailController.text;
     });
   }
 
@@ -89,59 +93,85 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextField(
-                controller: _accountController,
-                decoration: InputDecoration(labelText: '账号'),
-              ),
-              SizedBox(height: 5,),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: '密码'),
-              ),
-              SizedBox(height: 5,),
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(labelText: '用户名'),
-              ),
-              SizedBox(height: 7,),
-              Text('性别'),
-              Row(
+              SizedBox(height: 18,),
+              Stack(
+                alignment: Alignment.center,
                 children: [
-                  Radio(
-                    value: 'male',
-                    groupValue: selectedGender,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedGender = 'male';
-                      });
-                    },
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage(admin[0]['avatar']),
                   ),
-                  Text('男'),
-                  Radio(
-                    value: 'female',
-                    groupValue: selectedGender,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedGender = 'female';
-                      });
-                    },
-                  ),
-                  Text('女'),
+                  Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 3,color: themeColors[colorindex]),
+                      color: Colors.transparent,
+                      shape: BoxShape.circle,
+                    ),
+                  )
                 ],
               ),
-              SizedBox(height: 5,),
-              TextField(
-                controller: _schoolController,
-                decoration: InputDecoration(labelText: '学校'),
-              ),
-              SizedBox(height: 5,),
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: '邮箱'),
+              SizedBox(height: 16,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: _accountController,
+                    decoration: InputDecoration(labelText: '账号'),
+                  ),
+                  SizedBox(height: 10,),
+                  TextField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(labelText: '密码'),
+                  ),
+                  SizedBox(height: 10,),
+                  TextField(
+                    controller: _usernameController,
+                    decoration: InputDecoration(labelText: '用户名'),
+                  ),
+                  SizedBox(height: 16,),
+                  Text('性别',style: TextStyle(fontSize: 12,color: Colors.black.withOpacity(0.7)),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Radio(
+                        value: 'male',
+                        groupValue: selectedGender,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedGender = 'male';
+                          });
+                        },
+                      ),
+                      Text('男'),
+                      Radio(
+                        value: 'female',
+                        groupValue: selectedGender,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedGender = 'female';
+                          });
+                        },
+                      ),
+                      Text('女'),
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  TextField(
+                    controller: _schoolController,
+                    decoration: InputDecoration(labelText: '学校'),
+                  ),
+                  SizedBox(height: 10,),
+                  TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(labelText: '邮箱'),
+                  ),
+                ],
               ),
               SizedBox(height: 16.0),
               Container(

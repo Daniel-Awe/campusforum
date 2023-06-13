@@ -111,13 +111,6 @@ class _HomePageStatee extends State<HomePage> {
                       controller: _controller,
                       itemCount: hotpost.length ,
                       itemBuilder: (context, index) {
-                        // if (index == hotpost.length) {
-                        //   return ListTile(
-                        //     leading: Text('01'),
-                        //     title: Text(hotpost[0]['title']),
-                        //     subtitle: Text('${hotpost[0]['viewer']} views'),
-                        //   );
-                        // }
                         int postIndex = (index + _currentIndex) % hotpost.length;
                         Map<String, dynamic> post = hotpost[postIndex];
                         String number = (postIndex + 1).toString().padLeft(2, '0');

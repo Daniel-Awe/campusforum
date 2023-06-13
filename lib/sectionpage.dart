@@ -29,13 +29,17 @@ class _SectionPageState extends State<SectionPage> {
   void initSectionData(){
     //筛选出相关文章
     int forumindex;
-    for(int i =0;i<all.length;i++){
-      for(int j=0;j<all[i]['post'].length;j++){
+    int i = 0;
+    int j = 0;
+    for(i = 0; i<all.length;i++){
+      for(j = 0; j<all[i]['post'].length;j++){
         if(all[i]['post'][j]['tags'] == widget.sectiontitle){
           forumData.add(all[i]['post'][j]);
         }
       }
     }
+    print(i);
+    print(j);
 
     //筛选相关板块的详细信息
     for(int i =0;i<sectiondataA.length;i++){

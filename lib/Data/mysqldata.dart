@@ -6,7 +6,7 @@ List<dynamic> usersdata = [];
 
 //查询用户信息
 Future<void> fetchUsers() async {
-  final url = 'http://127.0.0.1/api/mysql'; // 本地服务器的URL
+  final url = 'http://127.0.0.1:8080/api/mysql'; // 本地服务器的URL
 
   try {
     final response = await http.get(Uri.parse(url));
@@ -28,7 +28,7 @@ Future<void> fetchUsers() async {
 
 // 插入新用户
 Future<void> insertUser(String Id, String Account, String Password, String Username, String Email) async {
-  final url = 'http://127.0.0.1/api/mysql';
+  final url = 'http://127.0.0.1:8080/api/mysql';
   final headers = {'Content-Type': 'application/json'};
   final body = {'Id': Id, 'Account':Account, 'Password': Password, 'Username': Username, 'Gender': 'male', 'School': '浙江科技学院', 'Email': Email};
 
@@ -50,9 +50,9 @@ Future<void> insertUser(String Id, String Account, String Password, String Usern
 
 // 更新用户信息
 Future<void> updateUser(String Id, String Account, String Password, String Username, String Gender, String School, String Email) async {
-  final url = 'http://127.0.0.1/api/mysql/$Id';
+  final url = 'http://127.0.0.1:8080/api/mysql';
   final headers = {'Content-Type': 'application/json'};
-  final body = {'Account': Account, 'Password': Password, 'Username': Username, 'Gender': Gender, 'School': School, 'Email': Email};
+  final body = {'Account': Account, 'Password': Password, 'Username': Username, 'Gender': Gender, 'School': School, 'Email': Email, 'Id':Id};
 
 
   try {

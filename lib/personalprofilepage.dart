@@ -21,6 +21,15 @@ class PersonalProfilePage extends StatefulWidget{
 class _PersonalProfilePageState extends State<PersonalProfilePage> {
 
   @override
+  void initState(){
+    super.initState();
+    final Map<String, dynamic> userInfo = widget.userInfo;
+    // final Map<String, dynamic> likes = userInfo['likes'][3];
+    // int num = all.indexWhere((element) => element['name'] == likes['name']);
+    // print(likes['name']);
+    print(num);
+  }
+  @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> userInfo = widget.userInfo;
     bool _isfollow = Isfollowed(userInfo['name']);
@@ -50,7 +59,7 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                 flex: 2,
                 child: Container(
                     padding: EdgeInsets.only(left: 20,right: 20,top: 65,bottom: 20),
-                    height: 315,
+                    height: 360,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
@@ -191,10 +200,10 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 22,bottom: 10),
-                          padding: EdgeInsets.symmetric(vertical: 20,horizontal: 25),
+                          padding: EdgeInsets.symmetric(vertical: 16,horizontal: 18),
                           decoration: BoxDecoration(
                               color: Color.fromRGBO(240, 240, 240, 0.65),
-                              borderRadius: BorderRadius.circular(30.0)
+                              borderRadius: BorderRadius.circular(20.0)
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,14 +211,14 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                               Text(
                                 'About Me',
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 17.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 7.0),
+                              SizedBox(height: 5.0),
                               Text(
                                 '${userInfo['intro']}',
-                                maxLines: 3,
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(fontSize: 14.0),
                               ),
@@ -341,7 +350,29 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                         ListView.builder(
                           itemCount: userInfo['likes'].length,
                           itemBuilder: (BuildContext context, int index) {
-                            final Map<String, dynamic> likes = userInfo['likes'][index];
+                            //根据其'likes'列表收藏的文章内容和作者进行匹配获取'all'中对应作者文章内容
+                            //该功能是为了解决添加评论的问题。有时候会点击进入'likes'的文章中，导致无法显示实际'all'的'post'实际文章中的'comments_data'内容
+                            //因为likes的文章内容显示的是'likes'数据中的'comments_data'，而不是原文章中添加的评论数据。
+                            int j = 0;
+                            int k = 0;
+                            bool found = false;
+                            for(j = 0; j < all.length; j++){
+                              for(k = 0; k < all[j]['post'].length; k++){
+                                if(all[j]['post'][k]['text'] == userInfo['likes'][index]['text']){
+                                  found = true;
+                                  break;
+                                }
+                              }
+                              if(found){
+                                break;
+                              }
+                            }
+                            //如果没找到就赋值为0
+                            if(j==40){
+                              j=0;
+                              k=0;
+                            }
+                            final Map<String, dynamic> likes = all[j]['post'][k];
                             int num = all.indexWhere((element) => element['name'] == likes['name']);
                             final Map<String, dynamic> userinfo = all[num];
                             String time = getTime(likes['time']);
